@@ -48,7 +48,7 @@
             transition: opacity 0.5s ease-out;
         }
         .loader-spinner {
-            border-color: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.1);
             border-top-color: var(--brand-accent);
         }
 
@@ -271,9 +271,14 @@
     <button id="btn-scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-6 right-6 p-4 bg-[var(--brand-secondary)] text-white rounded-2xl shadow-xl z-40 transition-all hover:scale-105 hidden border border-white/10"><i data-lucide="chevron-up" class="w-5 h-5"></i></button>
 
     <script>
-        const BRANDING_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTOYY28haMZrDrwXrYkOBIlHEptevtiv7O8M8RkR0G_K5vZacWRJNwGM-5N3wCjDaU-9KqzywcaL8DA/pub?gid=0&single=true&output=csv';
-        const DATA_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTOYY28haMZrDrwXrYkOBIlHEptevtiv7O8M8RkR0G_K5vZacWRJNwGM-5N3wCjDaU-9KqzywcaL8DA/pub?gid=1910038505&single=true&output=csv';
-        const TESTIMONY_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTOYY28haMZrDrwXrYkOBIlHEptevtiv7O8M8RkR0G_K5vZacWRJNwGM-5N3wCjDaU-9KqzywcaL8DA/pub?gid=1790988718&single=true&output=csv';
+        /**
+         * ==========================================
+         * TAUTAN DATABASE GOOGLE SHEETS (CSV) TERBARU
+         * ==========================================
+         */
+        const BRANDING_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSAizylMKs6s8kFexM7WFO0Y4rhJRUfL8JZsUaCJTFXx0lTGP59wFAdJk0hqAqEfkgKR9fNazaF2D7M/pub?gid=0&single=true&output=csv';
+        const DATA_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSAizylMKs6s8kFexM7WFO0Y4rhJRUfL8JZsUaCJTFXx0lTGP59wFAdJk0hqAqEfkgKR9fNazaF2D7M/pub?gid=388669273&single=true&output=csv';
+        const TESTIMONY_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSAizylMKs6s8kFexM7WFO0Y4rhJRUfL8JZsUaCJTFXx0lTGP59wFAdJk0hqAqEfkgKR9fNazaF2D7M/pub?gid=1350731658&single=true&output=csv';
 
         let appData = { branding: {}, services: [], testimonials: [], cart: JSON.parse(sessionStorage.getItem('cart') || '[]'), filters: { platform: 'Semua', search: '', sort: 'default', page: 1 } };
         const ITEMS_PER_PAGE = 20;
@@ -330,7 +335,10 @@
                 
                 renderAll();
                 setTimeout(() => { document.getElementById('loading-screen').style.opacity = '0'; setTimeout(() => document.getElementById('loading-screen').remove(), 500); }, 800);
-            } catch (e) { document.getElementById('loading-brand-name').innerText = "Gagal Memuat Data"; }
+            } catch (e) { 
+                console.error("Fetch Error:", e);
+                document.getElementById('loading-brand-name').innerText = "Gagal Memuat Data"; 
+            }
         };
 
         const renderAll = () => {
