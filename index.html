@@ -40,7 +40,7 @@
             mask-image: radial-gradient(ellipse at center, black, transparent 80%);
         }
 
-        /* Warna Loading Screen mengambil dari variabel CSS */
+        /* Loading Screen dinamis */
         .loader-wrapper {
             position: fixed; inset: 0; z-index: 9999;
             background: var(--bg-color);
@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    <!-- LOADING SCREEN (Warna Dinamis) -->
+    <!-- LOADING SCREEN -->
     <div id="loading-screen" class="loader-wrapper">
         <div class="loader-spinner w-12 h-12 border-2 rounded-full animate-spin mb-4"></div>
         <h1 id="loading-brand-name" class="text-[var(--brand-accent)] text-lg font-black tracking-widest animate-pulse uppercase">MEMUAT...</h1>
@@ -224,41 +224,37 @@
         </div>
     </section>
 
-    <!-- FOOTER (Satu Baris) -->
-    <footer class="bg-[var(--surface-color)] py-6 px-6 border-t border-[var(--border-color)]">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-            <!-- Kiri: Logo & Sosmed -->
-            <div class="flex items-center gap-6">
-                <div class="flex items-center gap-3">
-                    <img id="footer-logo" src="" alt="Logo" class="w-8 h-8 object-contain hidden">
-                    <span id="footer-brand-name" class="text-base font-black tracking-tighter italic uppercase">Zadigital</span>
+    <!-- FOOTER (2 SECTIONS: BRANDING & COPYRIGHT) -->
+    <footer class="bg-[var(--surface-color)] pt-16 pb-8 px-6 border-t border-[var(--border-color)]">
+        <div class="max-w-7xl mx-auto flex flex-col items-center text-center">
+            
+            <!-- SECTION 1: BRANDING -->
+            <div class="flex flex-col items-center mb-12">
+                <img id="footer-logo" src="" alt="Logo" class="w-14 h-14 object-contain mb-4 hidden">
+                <span id="footer-brand-name" class="text-2xl font-black tracking-tighter italic uppercase mb-8">Zadigital</span>
+                
+                <!-- Deretan Tombol Media Sosial -->
+                <div id="footer-sosmed" class="flex flex-wrap justify-center gap-4">
+                    <!-- Tombol Instagram, TikTok, dan WhatsApp dirender di sini via JS -->
                 </div>
-                <div id="footer-sosmed" class="flex gap-4 border-l border-[var(--border-color)] pl-6"></div>
             </div>
 
-            <!-- Tengah: Copyright -->
-            <div class="text-center">
-                <p id="footer-text-display" class="text-[10px] opacity-40 font-black uppercase tracking-[0.2em]"></p>
+            <!-- SECTION 2: COPYRIGHT -->
+            <div class="w-full pt-8 border-t border-[var(--border-color)]">
+                <p id="footer-text-display" class="text-[10px] opacity-30 font-black uppercase tracking-[0.3em]"></p>
             </div>
 
-            <!-- Kanan: Tombol WhatsApp -->
-            <div class="flex items-center">
-                <a id="footer-wa-link" href="#" target="_blank" class="flex items-center gap-3 px-5 py-2.5 bg-green-500/10 border border-green-500/20 rounded-full hover:bg-green-500 hover:text-white transition-all group">
-                    <i data-lucide="message-circle" class="w-4 h-4 text-green-500 group-hover:text-white"></i>
-                    <span id="footer-wa" class="font-black text-xs uppercase tracking-wider">WhatsApp</span>
-                </a>
-            </div>
         </div>
     </footer>
 
     <!-- CART DRAWER -->
-    <div id="cart-drawer" class="fixed top-0 bottom-0 right-0 w-full md:w-[400px] bg-[var(--surface-color)] z-[70] translate-x-full shadow-2xl flex flex-col border-l border-[var(--border-color)]">
-        <div class="p-6 border-b border-[var(--border-color)] flex items-center justify-between bg-[var(--brand-primary)] text-white">
+    <div id="cart-drawer" class="fixed top-0 bottom-0 right-0 w-full md:w-[400px] bg-[var(--surface-color)] z-[70] translate-x-full shadow-2xl flex flex-col border-l border-white/5">
+        <div class="p-6 border-b border-white/5 flex items-center justify-between bg-[var(--brand-primary)] text-white">
             <div class="flex items-center gap-3"><i data-lucide="shopping-bag" class="w-5 h-5 text-[var(--brand-accent)]"></i><h3 class="text-lg font-black italic uppercase">Keranjang</h3></div>
             <button onclick="toggleCart()" class="p-2 hover:bg-white/10 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
         </div>
         <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
-        <div class="p-6 bg-[var(--bg-color)] border-t border-[var(--border-color)] space-y-6">
+        <div class="p-6 bg-[var(--bg-color)] border-t border-white/5 space-y-6">
             <div class="flex justify-between items-center"><span class="opacity-40 font-black uppercase text-[10px]">Grand Total</span><span id="cart-total" class="text-2xl font-black text-[var(--brand-secondary)]">Rp 0</span></div>
             <div class="grid grid-cols-2 gap-3">
                 <button onclick="clearCart()" class="py-3.5 rounded-xl border border-red-500/20 text-red-500 font-black text-[10px] uppercase italic transition-all hover:bg-red-500 hover:text-white">Kosongkan</button>
@@ -273,7 +269,7 @@
     <script>
         /**
          * ==========================================
-         * TAUTAN DATABASE GOOGLE SHEETS (CSV) TERBARU
+         * TAUTAN DATABASE GOOGLE SHEETS (CSV)
          * ==========================================
          */
         const BRANDING_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSAizylMKs6s8kFexM7WFO0Y4rhJRUfL8JZsUaCJTFXx0lTGP59wFAdJk0hqAqEfkgKR9fNazaF2D7M/pub?gid=0&single=true&output=csv';
@@ -289,20 +285,15 @@
         const cleanPrice = (val) => parseInt(val.toString().replace(/[^0-9]/g, '')) || 0;
         const formatPrice = (num) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
 
-        const parseCSV = (csv) => { if(!csv) return []; const lines = csv.trim().split(/\r?\n/); const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, '')); return lines.slice(1).map(line => { const values = []; let cur = "", q = false; for (let c of line) { if (c === '"') q = !q; else if (c === ',' && !q) { values.push(cur.trim()); cur = ""; } else cur += c; } values.push(cur.trim()); return headers.reduce((o, h, i) => { o[h] = (values[i] || "").replace(/^"|"$/g, ''); return o; }, {}); }); };
+        const parseCSV = (csv) => { if(!csv) return []; const lines = csv.trim().split(/\r?\n/); if(lines.length < 1) return []; const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, '')); return lines.slice(1).map(line => { const values = []; let cur = "", q = false; for (let c of line) { if (c === '"') q = !q; else if (c === ',' && !q) { values.push(cur.trim()); cur = ""; } else cur += c; } values.push(cur.trim()); return headers.reduce((o, h, i) => { o[h] = (values[i] || "").replace(/^"|"$/g, ''); return o; }, {}); }); };
 
         const fixDriveUrl = (url) => { if (!url) return ''; const idMatch = url.match(/id=([^&]+)/) || url.match(/\/file\/d\/([^/]+)/); return idMatch ? `https://drive.google.com/uc?id=${idMatch[1]}` : url; };
 
-        // FUNGSI UTAMA PENETAPAN WARNA DARI SHEET
         const applyColors = () => {
             const b = appData.branding; const root = document.documentElement; const isDark = document.body.classList.contains('dark');
-            
-            // Variabel Dasar
             if (b.color_default) root.style.setProperty('--brand-primary', b.color_default);
             if (b.color_accent) root.style.setProperty('--brand-accent', b.color_accent);
             if (b.color_secondary) root.style.setProperty('--brand-secondary', b.color_secondary);
-            
-            // Logika Warna Berdasarkan Tema
             if (isDark) {
                 if (b.color_dark_bg) root.style.setProperty('--bg-color', b.color_dark_bg);
                 if (b.color_dark_surface) root.style.setProperty('--surface-color', b.color_dark_surface);
@@ -314,8 +305,6 @@
                 if (b.color_light_text) root.style.setProperty('--text-color', b.color_light_text);
                 if (b.color_light_accent) root.style.setProperty('--brand-accent', b.color_light_accent);
             }
-            
-            // Update border color based on transparency of text
             root.style.setProperty('--border-color', isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)');
         };
 
@@ -329,10 +318,7 @@
                 parseCSV(brandT).forEach(it => { appData.branding[it.key] = it.value; });
                 appData.services = parseCSV(dataT);
                 appData.testimonials = parseCSV(testT);
-                
-                // Segera terapkan warna ke loading screen sebelum dirender penuh
                 applyColors();
-                
                 renderAll();
                 setTimeout(() => { document.getElementById('loading-screen').style.opacity = '0'; setTimeout(() => document.getElementById('loading-screen').remove(), 500); }, 800);
             } catch (e) { 
@@ -345,17 +331,19 @@
             const b = appData.branding;
             applyColors();
             
+            // Text Identitas
             document.getElementById('nav-brand-name').innerText = b.brand_name || 'Zadigital';
             document.getElementById('footer-brand-name').innerText = b.brand_name || 'Zadigital';
             document.getElementById('footer-text-display').innerText = b.footer_text || '';
-            document.getElementById('footer-wa-link').href = `https://wa.me/${b.wa_number}`;
 
+            // Hero
             const title = b.hero_title || b.brand_name || 'Zadigital';
             const titleEl = document.getElementById('hero-title');
             titleEl.innerHTML = title.split(' ').join('<br>');
             titleEl.style.fontSize = title.length > 15 ? '2.5rem' : '';
             document.getElementById('hero-subtitle').innerText = b.hero_subtitle || '';
 
+            // Logos
             const logoUrl = fixDriveUrl(b.logo_url);
             if (logoUrl) { ['nav-logo', 'footer-logo', 'hero-logo'].forEach(id => { const el = document.getElementById(id); el.src = logoUrl; el.classList.remove('hidden'); }); }
 
@@ -384,12 +372,22 @@
             bonusKeys.forEach(k => { if (b[k]) { hasBonus = true; bonusGrid.innerHTML += `<img src="${fixDriveUrl(b[k])}" class="w-full h-auto rounded-xl shadow-lg border border-[var(--border-color)]">`; } });
             if (hasBonus) document.getElementById('bonus-section').classList.remove('hidden');
 
-            // Footer Sosmed
+            // Footer Social Buttons (REVISED)
             const footerSosmed = document.getElementById('footer-sosmed');
             footerSosmed.innerHTML = '';
-            [['ig_url', 'INSTAGRAM'], ['tiktok_url', 'TIKTOK'], ['youtube_url', 'YOUTUBE']].forEach(([key, label]) => {
-                if (b[key]) footerSosmed.innerHTML += `<a href="${b[key]}" target="_blank" class="text-[9px] font-black tracking-[0.2em] opacity-40 hover:opacity-100 transition-all uppercase">${label}</a>`;
-            });
+            
+            // Instagram
+            if (b.ig_url) {
+                footerSosmed.innerHTML += `<a href="${b.ig_url}" target="_blank" class="flex items-center gap-2 px-4 py-2 bg-[var(--bg-color)] rounded-xl border border-[var(--border-color)] text-[10px] font-black tracking-widest hover:bg-[var(--brand-secondary)] hover:text-white transition-all uppercase"><i data-lucide="instagram" class="w-4 h-4"></i> Instagram</a>`;
+            }
+            // TikTok
+            if (b.tiktok_url) {
+                footerSosmed.innerHTML += `<a href="${b.tiktok_url}" target="_blank" class="flex items-center gap-2 px-4 py-2 bg-[var(--bg-color)] rounded-xl border border-[var(--border-color)] text-[10px] font-black tracking-widest hover:bg-[var(--brand-secondary)] hover:text-white transition-all uppercase"><i data-lucide="music-2" class="w-4 h-4"></i> TikTok</a>`;
+            }
+            // WhatsApp
+            if (b.wa_number) {
+                footerSosmed.innerHTML += `<a href="https://wa.me/${b.wa_number}" target="_blank" class="flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 text-green-500 rounded-xl text-[10px] font-black tracking-widest hover:bg-green-500 hover:text-white transition-all uppercase"><i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp</a>`;
+            }
 
             renderFilters(); handleFilter(); renderTestimonials(); renderCart();
             lucide.createIcons();
@@ -426,7 +424,7 @@
                     </div>
                     <h3 class="text-lg font-black mb-1 leading-tight italic uppercase tracking-tighter">${s.nama_layanan}</h3>
                     <div class="mb-4"><span class="text-lg font-black text-[var(--brand-secondary)]">${formatPrice(cPrice)}</span></div>
-                    <div class="mt-auto pt-4 border-t border-[var(--border-color)] flex items-center justify-between gap-3">
+                    <div class="mt-auto pt-4 border-t border-white/5 flex items-center justify-between gap-3">
                         <div class="flex items-center gap-1.5"><div class="w-2 h-2 rounded-full ${isOut ? 'bg-red-500' : 'bg-green-500 animate-pulse'}"></div><span class="text-[8px] font-black ${isOut ? 'text-red-500' : 'text-green-500'} uppercase">${s.stok || 'AKTIF'}</span></div>
                         <button onclick="addToCart('${s.nama_layanan}', ${cPrice})" ${isOut ? 'disabled' : ''} class="flex-1 py-2 px-3 rounded-lg font-black text-[9px] bg-[var(--brand-primary)] text-white hover:scale-105 active:scale-95 transition-all disabled:opacity-20 uppercase tracking-tighter">+ KE KERANJANG</button>
                     </div>
@@ -476,7 +474,7 @@
             totEl.innerText = formatPrice(tot); badge.innerText = count; badge.classList.remove('hidden'); lucide.createIcons();
         };
 
-        const orderViaWA = () => { const b = appData.branding; if (appData.cart.length === 0) return; let msg = `${b.wa_greeting || "Halo, saya mau order:"}\n\n`, tot = 0; appData.cart.forEach((it, i) => { tot += (it.price * it.qty); msg += `${i+1}. ${it.name} x${it.qty} = ${formatPrice(it.price * it.qty)}\n`; }); msg += `\nTotal: ${formatPrice(tot)}\n\nTerima kasih!`; window.open(`https://wa.me/${b.wa_number}?text=${encodeURIComponent(msg)}`, '_blank'); };
+        const orderViaWA = () => { const b = appData.branding; if (appData.cart.length === 0) return; let msg = `${b.wa_greeting || "Halo, saya mau order:"}\n\n`, tot = 0; appData.cart.forEach((it, i) => { tot += (it.price * it.qty); msg += `${i+1}. ${it.name} x${it.qty} = ${formatPrice(it.price * it.qty)}\n`; }); msg += `\nTotal: ${formatPrice(tot)}\n\nTerika kasih!`; window.open(`https://wa.me/${b.wa_number}?text=${encodeURIComponent(msg)}`, '_blank'); };
 
         window.onload = fetchData;
         window.onscroll = () => { const nav = document.getElementById('navbar'), btn = document.getElementById('btn-scroll-top'); if (window.scrollY > 20) nav.classList.add('py-1', 'shadow-2xl'); else nav.classList.remove('py-1', 'shadow-2xl'); if (window.scrollY > 400) btn.classList.remove('hidden'); else btn.classList.add('hidden'); };
